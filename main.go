@@ -1,34 +1,30 @@
 package main
 
 import (
-	"crypto/md5"
-	"encoding/hex"
 	"fmt"
-	"github.com/spf13/pflag"
 	"os"
-	"strconv"
+	"strings"
 )
 
-var dictName = pflag.StringP("dictName", "d", "Dict.txt", "Input dict file name")
-var shellName = pflag.StringP("shellName", "s", "shell.php", "Input shell file name")
-
 func main() {
-	pflag.Parse()
-	for i := 0; i < 100; i++ {
-		file := *shellName + strconv.Itoa(i)
-		fmt.Println(file)
-		hashMd5 := md5.New()
-		hashMd5.Write([]byte(file))
-		hashMd5String := hex.EncodeToString(hashMd5.Sum(nil))
-		fmt.Println(hashMd5String)
-		f, err := os.OpenFile(*dictName, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)
-		defer f.Close()
-		if err != nil {
-			fmt.Println(err)
-		}
-		_, err = f.WriteString(hashMd5String + ".php" + "\n")
-		if err != nil {
-			fmt.Println(err)
-		}
+	fmt.Println("hello world")
+	for i := 0; i < 256; i++ {
+		variant := fmt.Sprintf("%02x\n", i)
+		generalWrite(strings.Replace(variant, "\n", "", -1))
+	}
+}
+
+func generalWrite(param string) {
+	f, err := os.OpenFile("text.txt", os.O_RDONLY|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		fmt.Println("open file error :", err)
+		return
+	}
+	defer f.Close()
+	fmt.Println(param)
+	_, err = f.WriteString("\\x" + param)
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
 }
