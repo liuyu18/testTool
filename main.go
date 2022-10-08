@@ -3,15 +3,16 @@ package main
 import (
 	"fmt"
 	"os"
-	"strings"
+	toolregex "testTool/regex"
 )
 
 func main() {
 	fmt.Println("hello world")
-	for i := 0; i < 256; i++ {
-		variant := fmt.Sprintf("%02x\n", i)
-		generalWrite(strings.Replace(variant, "\n", "", -1))
-	}
+	toolregex.ToolRegex()
+	//for i := 0; i < 256; i++ {
+	//	variant := fmt.Sprintf("%02x\n", i)
+	//	generalWrite(strings.Replace(variant, "\n", "", -1))
+	//}
 }
 
 func generalWrite(param string) {
